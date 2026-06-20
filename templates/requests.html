@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Material Requests - SYLLABUZZ</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/dashboard.css') }}">
+</head>
+
+<body>
+
+<div class="dashboard-container">
+
+    <aside class="sidebar">
+
+        <h2>SYLLABUZZ</h2>
+
+        <ul>
+
+            <li>
+                <a href="{{ url_for('dashboard') }}">
+                    Dashboard
+                </a>
+            </li>
+
+            <li>
+                <a href="{{ url_for('upload_material') }}">
+                    Upload Material
+                </a>
+            </li>
+
+            <li>
+                <a href="{{ url_for('bookmarks') }}">
+                    Bookmarks
+                </a>
+            </li>
+
+            <li>
+                <a href="{{ url_for('requests_page') }}">
+                    Requests
+                </a>
+            </li>
+
+            <li>
+                <a href="{{ url_for('logout') }}">
+                    Logout
+                </a>
+            </li>
+
+        </ul>
+
+    </aside>
+
+
+    <main class="main-content">
+
+        <h1>Material Request Portal</h1>
+
+        <!-- CREATE REQUEST -->
+
+        <div class="request-form-card">
+
+            <h2>Create New Request</h2>
+
+            <form action="{{ url_for('create_request') }}"
+                  method="POST">
+
+                <div class="form-group">
+
+                    <label>Request Title</label>
+
+                    <input
+                        type="text"
+                        name="title"
+                        required>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>Subject</label>
+
+                    <select
+                        name="subject_id"
+                        required>
+
+                        {% for subject in subjects %}
+
+                            <option
+                                value="{{ subject.subject_id }}">
+
+                                Semester {{ subject.semester }}
+                                -
+                                {{ subject.subject_name }}
+
+                            </option>
+
+                        {% endfor %}
+
+                    </select>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>Description</label>
+
+                    <textarea
+                        name="description"
+                        rows="4"
+                        required></textarea>
+
+                </div>
+
+                <button type="submit">
+
+                    Post Request
+
+                </button>
+
+            </form>
+
+        </div>
+
+
+        <!-- REQUEST LIST -->
+
+        <div class="requests-section">
+
+            <h2>All Requests</h2>
+
+            {% if requests %}
+
+                {% for request in requests %}
+
+                    <div class="request-card">
+
+                        <h3>
+                            {{ request.title }}
+                        </h3>
+
+                        <p>
+                            <strong>Subject:</strong>
+                            {{ request.subject_name }}
+                        </p>
+
+                        <p>
+                            <strong>Requested By:</strong>
+                            {{ request.requester }}
+                        </p>
+
+                        <p>
+                            {{ request.description }}
+                        </p>
+
+                        <p>
+                            <strong>Status:</strong>
+
+                            {% if request.status == 'Pending' %}
+
+                                <span class="pending-status">
+                                    Pending
+                                </span>
+
+                            {% elif request.status == 'Accepted' %}
+
+                                <span class="accepted-status">
+                                    Accepted
+                                </span>
+
+                            {% else %}
+
+                                <span class="fulfilled-status">
+                                    Fulfilled
+                                </span>
+
+                            {% endif %}
+
+                        </p>
+
+                        <!-- ACCEPT BUTTON -->
+
+                        {% if request.status == 'Pending' %}
+
+                            <a
+                                href="{{ url_for('accept_request', request_id=request.request_id) }}"
+                                class="accept-btn">
+
+                                Accept Request
+
+                            </a>
+
+                        {% endif %}
+
+
+                        <!-- FULFILL BUTTON -->
+
+                        {% if request.status == 'Accepted' %}
+
+                            <form
+                                action="{{ url_for('fulfill_request', request_id=request.request_id) }}"
+                                method="POST">
+
+                                <input
+                                    type="number"
+                                    name="material_id"
+                                    placeholder="Material ID"
+                                    required>
+
+                                <button type="submit">
+
+                                    Mark Fulfilled
+
+                                </button>
+
+                            </form>
+
+                        {% endif %}
+
+                    </div>
+
+                {% endfor %}
+
+            {% else %}
+
+                <div class="empty-state">
+
+                    No requests available.
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+    </main>
+
+</div>
+
+</body>
+</html>

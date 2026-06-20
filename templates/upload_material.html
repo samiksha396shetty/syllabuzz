@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Material - SYLLABUZZ</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/dashboard.css') }}">
+</head>
+
+<body>
+
+<div class="dashboard-container">
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <h2>SYLLABUZZ</h2>
+
+        <ul>
+            <li>
+                <a href="{{ url_for('dashboard') }}">
+                    Dashboard
+                </a>
+            </li>
+
+            <li>
+                <a href="{{ url_for('upload_material') }}">
+                    Upload Material
+                </a>
+            </li>
+
+            <li>
+                <a href="{{ url_for('bookmarks') }}">
+                    Bookmarks
+                </a>
+            </li>
+
+            <li>
+                <a href="{{ url_for('requests_page') }}">
+                    Requests
+                </a>
+            </li>
+
+            <li>
+                <a href="{{ url_for('logout') }}">
+                    Logout
+                </a>
+            </li>
+        </ul>
+
+    </aside>
+
+
+    <!-- MAIN CONTENT -->
+
+    <main class="main-content">
+
+        <h1>Upload Academic Material</h1>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="flash {{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <div class="upload-card">
+
+            <form method="POST"
+                  enctype="multipart/form-data">
+
+                <div class="form-group">
+
+                    <label>Material Title</label>
+
+                    <input
+                        type="text"
+                        name="title"
+                        required
+                    >
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>Description</label>
+
+                    <textarea
+                        name="description"
+                        rows="5"
+                        required></textarea>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>Academic Year</label>
+
+                    <select name="year" required>
+
+                        <option value="1">1st Year</option>
+                        <option value="2">2nd Year</option>
+                        <option value="3">3rd Year</option>
+                        <option value="4">4th Year</option>
+
+                    </select>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>Semester</label>
+
+                    <select name="semester" required>
+
+                        <option value="1">Semester 1</option>
+                        <option value="2">Semester 2</option>
+                        <option value="3">Semester 3</option>
+                        <option value="4">Semester 4</option>
+                        <option value="5">Semester 5</option>
+                        <option value="6">Semester 6</option>
+                        <option value="7">Semester 7</option>
+                        <option value="8">Semester 8</option>
+
+                    </select>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>Subject</label>
+
+                    <select name="subject_id" required>
+
+                        {% for subject in subjects %}
+
+                            <option
+                                value="{{ subject.subject_id }}">
+
+                                Semester {{ subject.semester }}
+                                -
+                                {{ subject.subject_name }}
+
+                            </option>
+
+                        {% endfor %}
+
+                    </select>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>
+                        Upload File
+                        (PDF / DOC / PPT / Image)
+                    </label>
+
+                    <input
+                        type="file"
+                        name="file"
+                    >
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>
+                        OR YouTube Link
+                    </label>
+
+                    <input
+                        type="url"
+                        name="youtube_link"
+                        placeholder="https://youtube.com/..."
+                    >
+
+                </div>
+
+                <button
+                    type="submit"
+                    class="upload-btn">
+
+                    Upload Material
+
+                </button>
+
+            </form>
+
+        </div>
+
+    </main>
+
+</div>
+
+</body>
+</html>

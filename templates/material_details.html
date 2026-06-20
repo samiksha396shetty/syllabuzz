@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ material.title }} - SYLLABUZZ</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/dashboard.css') }}">
+</head>
+
+<body>
+
+<div class="dashboard-container">
+
+    <aside class="sidebar">
+
+        <h2>SYLLABUZZ</h2>
+
+        <ul>
+
+            <li>
+                <a href="{{ url_for('dashboard') }}">
+                    Dashboard
+                </a>
+            </li>
+
+            <li>
+                <a href="{{ url_for('upload_material') }}">
+                    Upload Material
+                </a>
+            </li>
+
+            <li>
+                <a href="{{ url_for('bookmarks') }}">
+                    Bookmarks
+                </a>
+            </li>
+
+            <li>
+                <a href="{{ url_for('requests_page') }}">
+                    Requests
+                </a>
+            </li>
+
+            <li>
+                <a href="{{ url_for('logout') }}">
+                    Logout
+                </a>
+            </li>
+
+        </ul>
+
+    </aside>
+
+
+    <main class="main-content">
+
+        <div class="material-detail-card">
+
+            <h1>{{ material.title }}</h1>
+
+            <p>
+                <strong>Subject:</strong>
+                {{ material.subject_name }}
+            </p>
+
+            <p>
+                <strong>Uploaded By:</strong>
+                {{ material.uploader }}
+            </p>
+
+            <p>
+                <strong>Semester:</strong>
+                {{ material.semester }}
+            </p>
+
+            <p>
+                <strong>Academic Year:</strong>
+                {{ material.year }}
+            </p>
+
+            <p>
+                <strong>Description:</strong>
+            </p>
+
+            <p>
+                {{ material.description }}
+            </p>
+
+            <p>
+                <strong>Average Rating:</strong>
+
+                {% if avg_rating.average_rating %}
+                    {{ avg_rating.average_rating }}/10
+                {% else %}
+                    No Ratings Yet
+                {% endif %}
+            </p>
+
+        </div>
+
+
+        <!-- PDF PREVIEW -->
+
+        {% if material.file_type == 'pdf' %}
+
+        <div class="preview-section">
+
+            <h2>PDF Preview</h2>
+
+            <iframe
+                src="{{ url_for('preview_pdf', material_id=material.material_id) }}"
+                width="100%"
+                height="700">
+            </iframe>
+
+            <br><br>
+
+            <a
+                class="action-btn"
+                href="{{ url_for('download_file', filename=material.file_path) }}">
+
+                Download PDF
+
+            </a>
+
+        </div>
+
+        {% endif %}
+
+
+        <!-- OTHER FILES -->
+
+        {% if material.file_type and material.file_type != 'pdf' %}
+
+        <div class="preview-section">
+
+            <h2>Material File</h2>
+
+            <a
+                class="action-btn"
+                href="{{ url_for('download_file', filename=material.file_path) }}">
+
+                Download File
+
+            </a>
+
+        </div>
+
+        {% endif %}
+
+
+        <!-- YOUTUBE -->
+
+        {% if material.youtube_link %}
+
+        <div class="preview-section">
+
+            <h2>YouTube Resource</h2>
+
+            <a
+                href="{{ material.youtube_link }}"
+                target="_blank"
+                class="action-btn">
+
+                Open YouTube Resource
+
+            </a>
+
+        </div>
+
+        {% endif %}
+
+
+        <!-- BOOKMARK -->
+
+        <div class="preview-section">
+
+            <a
+                class="bookmark-btn"
+                href="{{ url_for('add_bookmark', material_id=material.material_id) }}">
+
+                Save To Bookmarks
+
+            </a>
+
+        </div>
+
+
+        <!-- RATE MATERIAL -->
+
+        <div class="rating-card">
+
+            <h2>Rate This Material</h2>
+
+            <form
+                action="{{ url_for('rate_material', material_id=material.material_id) }}"
+                method="POST">
+
+                <label>
+                    Rating (1 - 10)
+                </label>
+
+                <input
+                    type="number"
+                    name="rating"
+                    min="1"
+                    max="10"
+                    required>
+
+                <label>
+                    Comment
+                </label>
+
+                <textarea
+                    name="comment"
+                    rows="4"
+                    required></textarea>
+
+                <button type="submit">
+
+                    Submit Review
+
+                </button>
+
+            </form>
+
+        </div>
+
+
+        <!-- COMMENTS -->
+
+        <div class="comments-section">
+
+            <h2>Student Reviews</h2>
+
+            {% if comments %}
+
+                {% for comment in comments %}
+
+                    <div class="comment-card">
+
+                        <h4>
+                            {{ comment.name }}
+                        </h4>
+
+                        <p>
+                            Rating:
+                            {{ comment.rating }}/10
+                        </p>
+
+                        <p>
+                            {{ comment.comment }}
+                        </p>
+
+                    </div>
+
+                {% endfor %}
+
+            {% else %}
+
+                <div class="empty-state">
+
+                    No reviews yet.
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+    </main>
+
+</div>
+
+</body>
+</html>

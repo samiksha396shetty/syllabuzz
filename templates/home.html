@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SYLLABUZZ - Academic Material Management System</title>
+
+```
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+```
+
+</head>
+
+<body>
+
+```
+<header class="navbar">
+    <div class="logo">
+        SYLLABUZZ
+    </div>
+
+    <nav>
+        <a href="{{ url_for('home') }}">Home</a>
+        <a href="{{ url_for('login') }}">Login</a>
+        <a href="{{ url_for('register') }}">Register</a>
+    </nav>
+</header>
+
+
+<section class="hero">
+
+    <div class="hero-content">
+
+        <h1>
+            Welcome to SYLLABUZZ
+        </h1>
+
+        <p>
+            VVCE Academic Material Management System
+        </p>
+
+        <p>
+            Access organized academic materials, upload notes,
+            collaborate with professors and students,
+            bookmark resources, request materials and
+            improve learning efficiency.
+        </p>
+
+        <div class="hero-buttons">
+
+            <a href="{{ url_for('login') }}"
+               class="btn-primary">
+                Login
+            </a>
+
+            <a href="{{ url_for('register') }}"
+               class="btn-secondary">
+                Register
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<section class="features">
+
+    <h2>Features</h2>
+
+    <div class="feature-grid">
+
+        <div class="feature-card">
+            <h3>Material Repository</h3>
+            <p>
+                Organize materials semester-wise,
+                year-wise and subject-wise.
+            </p>
+        </div>
+
+        <div class="feature-card">
+            <h3>Professor Uploads</h3>
+            <p>
+                Professors can upload notes,
+                presentations, documents and references.
+            </p>
+        </div>
+
+        <div class="feature-card">
+            <h3>Student Contributions</h3>
+            <p>
+                Students can share useful study
+                resources with peers.
+            </p>
+        </div>
+
+        <div class="feature-card">
+            <h3>Search System</h3>
+            <p>
+                Search materials by subject,
+                semester, title or uploader.
+            </p>
+        </div>
+
+        <div class="feature-card">
+            <h3>Bookmarks</h3>
+            <p>
+                Save important materials
+                for future access.
+            </p>
+        </div>
+
+        <div class="feature-card">
+            <h3>Material Requests</h3>
+            <p>
+                Request missing materials and
+                track fulfillment status.
+            </p>
+        </div>
+
+        <div class="feature-card">
+            <h3>Ratings & Reviews</h3>
+            <p>
+                Rate materials out of 10 and
+                provide useful feedback.
+            </p>
+        </div>
+
+        <div class="feature-card">
+            <h3>PDF Preview</h3>
+            <p>
+                View PDFs directly inside the
+                browser before downloading.
+            </p>
+        </div>
+
+    </div>
+
+</section>
+
+
+<section class="about">
+
+    <h2>Why SYLLABUZZ?</h2>
+
+    <p>
+        SYLLABUZZ helps students and professors
+        maintain academic resources in a structured
+        and easily accessible manner.
+    </p>
+
+    <p>
+        Designed specifically for the
+        Computer Science and Engineering department,
+        materials are categorized by
+        academic year, semester and subject.
+    </p>
+
+</section>
+
+
+<footer>
+
+    <p>
+        © 2026 SYLLABUZZ | VVCE Academic Material Management System
+    </p>
+
+</footer>
+```
+
+</body>
+</html>

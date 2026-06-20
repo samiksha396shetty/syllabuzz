@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results - SYLLABUZZ</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/dashboard.css') }}">
+</head>
+
+<body>
+
+<div class="dashboard-container">
+
+    <aside class="sidebar">
+
+        <h2>SYLLABUZZ</h2>
+
+        <ul>
+
+            <li>
+                <a href="{{ url_for('dashboard') }}">
+                    Dashboard
+                </a>
+            </li>
+
+            <li>
+                <a href="{{ url_for('upload_material') }}">
+                    Upload Material
+                </a>
+            </li>
+
+            <li>
+                <a href="{{ url_for('bookmarks') }}">
+                    Bookmarks
+                </a>
+            </li>
+
+            <li>
+                <a href="{{ url_for('requests_page') }}">
+                    Requests
+                </a>
+            </li>
+
+            <li>
+                <a href="{{ url_for('logout') }}">
+                    Logout
+                </a>
+            </li>
+
+        </ul>
+
+    </aside>
+
+
+    <main class="main-content">
+
+        <h1>Search Results</h1>
+
+        {% if materials %}
+
+            <div class="material-grid">
+
+                {% for material in materials %}
+
+                    <div class="material-card">
+
+                        <h3>
+                            {{ material.title }}
+                        </h3>
+
+                        <p>
+                            <strong>Subject:</strong>
+                            {{ material.subject_name }}
+                        </p>
+
+                        <p>
+                            <strong>Uploader:</strong>
+                            {{ material.uploader }}
+                        </p>
+
+                        <p>
+                            <strong>Semester:</strong>
+                            {{ material.semester }}
+                        </p>
+
+                        <p>
+                            <strong>Year:</strong>
+                            {{ material.year }}
+                        </p>
+
+                        <p>
+                            {{ material.description[:150] }}...
+                        </p>
+
+                        <a
+                           href="{{ url_for('material_details', material_id=material.material_id) }}"
+                           class="view-btn">
+
+                           View Material
+
+                        </a>
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        {% else %}
+
+            <div class="empty-state">
+
+                <h2>No Results Found</h2>
+
+                <p>
+                    Try searching with a different keyword,
+                    subject or semester.
+                </p>
+
+            </div>
+
+        {% endif %}
+
+    </main>
+
+</div>
+
+</body>
+</html>

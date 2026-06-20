@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - SYLLABUZZ</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+</head>
+<body>
+
+<div class="login-container">
+
+    <div class="login-card register-card">
+
+        <h1>SYLLABUZZ</h1>
+        <h2>Create Account</h2>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="flash {{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <form method="POST">
+
+            <div class="form-group">
+                <label>Register As</label>
+
+                <select name="role"
+                        id="role"
+                        onchange="toggleFields()"
+                        required>
+
+                    <option value="">Select Role</option>
+
+                    <option value="student">
+                        Student
+                    </option>
+
+                    <option value="professor">
+                        Professor
+                    </option>
+
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Full Name</label>
+
+                <input type="text"
+                       name="name"
+                       placeholder="Enter Full Name"
+                       required>
+            </div>
+
+            <div class="form-group">
+                <label>VVCE Email</label>
+
+                <input type="email"
+                       name="email"
+                       placeholder="example@vvce.ac.in"
+                       required>
+            </div>
+
+            <div class="form-group">
+                <label>Password</label>
+
+                <input type="password"
+                       name="password"
+                       placeholder="Enter Password"
+                       required>
+            </div>
+
+            <!-- STUDENT SECTION -->
+
+            <div id="studentFields">
+
+                <div class="form-group">
+                    <label>USN</label>
+
+                    <input type="text"
+                           name="usn"
+                           placeholder="VVCE24CSE0294">
+                </div>
+
+                <div class="form-group">
+                    <label>Branch</label>
+
+                    <input type="text"
+                           name="branch"
+                           value="Computer Science and Engineering"
+                           readonly>
+                </div>
+
+                <div class="form-group">
+                    <label>Year</label>
+
+                    <select name="year">
+
+                        <option value="1">1st Year</option>
+                        <option value="2">2nd Year</option>
+                        <option value="3">3rd Year</option>
+                        <option value="4">4th Year</option>
+
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Semester</label>
+
+                    <select name="semester">
+
+                        <option value="1">Semester 1</option>
+                        <option value="2">Semester 2</option>
+                        <option value="3">Semester 3</option>
+                        <option value="4">Semester 4</option>
+                        <option value="5">Semester 5</option>
+                        <option value="6">Semester 6</option>
+                        <option value="7">Semester 7</option>
+                        <option value="8">Semester 8</option>
+
+                    </select>
+                </div>
+
+            </div>
+
+            <!-- PROFESSOR SECTION -->
+
+            <div id="professorFields" style="display:none;">
+
+                <div class="form-group">
+                    <label>Professor ID</label>
+
+                    <input type="text"
+                           name="professor_id"
+                           placeholder="VVCEPROF001">
+                </div>
+
+            </div>
+
+            <button type="submit" class="login-btn">
+                Register
+            </button>
+
+        </form>
+
+        <p class="register-link">
+
+            Already have an account?
+
+            <a href="{{ url_for('login') }}">
+                Login
+            </a>
+
+        </p>
+
+        <a href="{{ url_for('home') }}"
+           class="home-link">
+
+           Back To Home
+
+        </a>
+
+    </div>
+
+</div>
+
+<script>
+
+function toggleFields() {
+
+    const role =
+        document.getElementById("role").value;
+
+    const studentFields =
+        document.getElementById("studentFields");
+
+    const professorFields =
+        document.getElementById("professorFields");
+
+    if(role === "student") {
+
+        studentFields.style.display = "block";
+        professorFields.style.display = "none";
+
+    }
+    else if(role === "professor") {
+
+        studentFields.style.display = "none";
+        professorFields.style.display = "block";
+
+    }
+    else {
+
+        studentFields.style.display = "none";
+        professorFields.style.display = "none";
+
+    }
+}
+
+window.onload = toggleFields;
+
+</script>
+
+</body>
+</html>

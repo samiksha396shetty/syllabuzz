@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - SYLLABUZZ</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/dashboard.css') }}">
+</head>
+
+<body>
+
+<div class="dashboard-container">
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <h2>SYLLABUZZ</h2>
+
+        <ul>
+
+            <li>
+                <a href="{{ url_for('dashboard') }}">
+                    Dashboard
+                </a>
+            </li>
+
+            <li>
+                <a href="{{ url_for('upload_material') }}">
+                    Upload Material
+                </a>
+            </li>
+
+            <li>
+                <a href="{{ url_for('bookmarks') }}">
+                    Bookmarks
+                </a>
+            </li>
+
+            <li>
+                <a href="{{ url_for('requests_page') }}">
+                    Requests
+                </a>
+            </li>
+
+            <li>
+                <a href="{{ url_for('logout') }}">
+                    Logout
+                </a>
+            </li>
+
+        </ul>
+
+    </aside>
+
+
+    <!-- MAIN CONTENT -->
+
+    <main class="main-content">
+
+        <div class="top-bar">
+
+            <h1>
+                Welcome, {{ session['name'] }}
+            </h1>
+
+        </div>
+
+
+        <!-- STATS -->
+
+        <div class="stats-grid">
+
+            <div class="stat-card">
+                <h3>{{ total_students }}</h3>
+                <p>Students</p>
+            </div>
+
+            <div class="stat-card">
+                <h3>{{ total_professors }}</h3>
+                <p>Professors</p>
+            </div>
+
+            <div class="stat-card">
+                <h3>{{ total_materials }}</h3>
+                <p>Materials</p>
+            </div>
+
+            <div class="stat-card">
+                <h3>{{ total_requests }}</h3>
+                <p>Requests</p>
+            </div>
+
+        </div>
+
+
+        <!-- SEARCH -->
+
+        <div class="search-section">
+
+            <form action="{{ url_for('search') }}"
+                  method="GET">
+
+                <input
+                    type="text"
+                    name="keyword"
+                    placeholder="Search by title, subject or uploader"
+                >
+
+                <select name="semester">
+
+                    <option value="">
+                        All Semesters
+                    </option>
+
+                    <option value="1">Semester 1</option>
+                    <option value="2">Semester 2</option>
+                    <option value="3">Semester 3</option>
+                    <option value="4">Semester 4</option>
+                    <option value="5">Semester 5</option>
+                    <option value="6">Semester 6</option>
+                    <option value="7">Semester 7</option>
+                    <option value="8">Semester 8</option>
+
+                </select>
+
+                <button type="submit">
+                    Search
+                </button>
+
+            </form>
+
+        </div>
+
+
+        <!-- RECENT MATERIALS -->
+
+        <section class="materials-section">
+
+            <h2>
+                Recently Uploaded Materials
+            </h2>
+
+            {% if recent_materials %}
+
+                <div class="material-grid">
+
+                    {% for material in recent_materials %}
+
+                        <div class="material-card">
+
+                            <h3>
+                                {{ material.title }}
+                            </h3>
+
+                            <p>
+                                {{ material.subject_name }}
+                            </p>
+
+                            <p>
+                                Uploaded by:
+                                {{ material.uploader }}
+                            </p>
+
+                            <p>
+                                {{ material.upload_date }}
+                            </p>
+
+                            <a
+                               href="{{ url_for('material_details', material_id=material.material_id) }}"
+                               class="view-btn">
+
+                               View Material
+
+                            </a>
+
+                        </div>
+
+                    {% endfor %}
+
+                </div>
+
+            {% else %}
+
+                <div class="empty-state">
+
+                    No materials uploaded yet.
+
+                </div>
+
+            {% endif %}
+
+        </section>
+
+    </main>
+
+</div>
+
+</body>
+</html>
